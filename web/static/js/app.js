@@ -12,10 +12,24 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
+import Game from './game.js'
+import Network from './network.js'
 
-// Import local files
-//
-// Local files can be imported directly using relative
-// paths "./socket" or full ones "web/static/js/socket".
+window.onload = function(){
+  let container = document.querySelector('.game-container')
 
-import socket from "./socket"
+  Network.connect('/socket', 'game:public').then(([id, network]) => {
+
+    let game = new Game(container, {
+      onMouseMove: network.sendMousePosition
+    });
+
+    network.registerMousePositionsCallback(function(id, x, y){
+      game.updateCursor(id, x, y)
+    })
+
+    console.log('container', container)
+    game.start()
+  })
+}
+

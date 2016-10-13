@@ -2,7 +2,7 @@ defmodule Somethingio.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "room:*", Somethingio.RoomChannel
+  channel "game:*", Somethingio.GameChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

@@ -1,0 +1,16 @@
+.game-container{
+  width: 800px;
+  height: 600px;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.cursor {
+  width: 10px;
+  height: 10px;
+  background: blue;
+}
+
+.cursor--other {
+  background: red;
+}
