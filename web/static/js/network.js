@@ -11,7 +11,7 @@ function reserveRoom() {
 }
 
 function connectToRoom(room) {
-  let socket = new Socket('/socket', {params: {token: window.userToken}})
+  let socket = new Socket('/socket', {params: {player_name: "Player"}})
   socket.connect()
 
   let channelName = `room:${room.id}`
@@ -45,13 +45,26 @@ class Network {
   }
 
   sendMousePosition(x, y) {
-    this.channel.push('mousemove', {body: [this.room.id, x, y]})
+    this.channel.push('mouse_move', {x, y})
+  }
+
+  sendMouseClick(score) {
+    console.log('sending mouse click', score)
+    this.channel.push('mouse_click', {score})
   }
 
   registerMousePositionsCallback(callback) {
-    this.channel.on("mousemove", payload => {
-      let [id, x, y] = payload.body
-      callback(id, x, y)
+    this.channel.on("mouse_move", payload => {
+      let [player_id, x, y] = payload.body
+      callback(player_id, x, y)
+    })
+  }
+
+  registerMoueClickCallback(callback) {
+    this.channel.on("mouse_click", payload => {
+      console.log('got mouse click')
+      let [player_id, score] = payload.body
+      callback(player_id, score)
     })
   }
 }

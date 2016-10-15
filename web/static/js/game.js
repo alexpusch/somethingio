@@ -3,22 +3,24 @@ class Game {
     this.container = container
     this.cursors = {}
     this.cursorsUI = {}
+    this.score = 0
     this.events = events;
   }
 
   start() {
     this.container.addEventListener('mousemove', this.handleMouseMove.bind(this))
+    this.container.addEventListener('click', this.handleMouseClick.bind(this))
 
     let containerOrigin = this.container.getBoundingClientRect()
     this.originX = containerOrigin.left
     this.originY = containerOrigin.top
   }
 
-  updateCursor(cursorId, x, y) {
-    let cursor = this.cursors[cursorId]
+  updateCursor(playerId, x, y) {
+    let cursor = this.cursors[playerId]
 
     if(!cursor) {
-      this.cursors[cursorId] = cursor = {id: cursorId}
+      this.cursors[playerId] = cursor = {id: playerId}
     }
 
     cursor.x = x
@@ -38,9 +40,12 @@ class Game {
       this.container.appendChild(cursorUI)
     }
 
-    console.log('updating cursor ui', id, x, y, cursorUI)
     cursorUI.style.top = `${y}px`
     cursorUI.style.left = `${x}px`
+  }
+
+  updateScore(playerId, score) {
+    console.log(`player ${playerId} has score ${score}`)
   }
 
   handleMouseMove(event) {
@@ -48,6 +53,11 @@ class Game {
 
     this.updateCursor('me', x, y)
     this.events.onMouseMove(x,y)
+  }
+
+  handleMouseClick(event) {
+    this.score++
+    this.events.onMouseClick(this.score)
   }
 }
 

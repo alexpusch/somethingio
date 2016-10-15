@@ -19,8 +19,8 @@ defmodule Somethingio.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    IO.puts ">>>>> user socker connect"
+  def connect(params, socket) do
+    socket = assign socket, :player_name, params["player_name"]
     {:ok, socket}
   end
 

@@ -1,12 +1,13 @@
 defmodule Somethingio.Room do
   use Somethingio.Web, :model
 
-  @room_max_players 3
+  @room_max_players 6
 
   schema "rooms" do
     field :players_count, :integer
     field :name, :string
 
+    has_many :players, Somethingio.Player
     timestamps()
   end
 

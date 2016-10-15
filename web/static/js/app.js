@@ -19,16 +19,19 @@ window.onload = function(){
   let container = document.querySelector('.game-container')
 
   Network.connect().then((network) => {
-    console.log('starting game')
     let game = new Game(container, {
-      onMouseMove: network.sendMousePosition.bind(network)
+      onMouseMove: network.sendMousePosition.bind(network),
+      onMouseClick: network.sendMouseClick.bind(network)
     });
 
-    network.registerMousePositionsCallback(function(id, x, y){
+    network.registerMousePositionsCallback((id, x, y) => {
       game.updateCursor(id, x, y)
     })
 
-    console.log('container', container)
+    network.registerMoueClickCallback((id, score) => {
+      game.updateScore(id, score)
+    })
+
     game.start()
 
     let roomNameContainer = document.querySelector('.game__room-name')
