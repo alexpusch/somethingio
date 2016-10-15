@@ -1,6 +1,8 @@
 defmodule Somethingio.Room do
   use Somethingio.Web, :model
 
+  @room_max_players 3
+
   schema "rooms" do
     field :players_count, :integer
     field :name, :string
@@ -21,7 +23,7 @@ defmodule Somethingio.Room do
     import Ecto.Query, only: [from: 2]
 
     query = from r in Somethingio.Room,
-          where: r.players_count < 6,
+          where: r.players_count < @room_max_players,
           select: r,
           limit: 1
 

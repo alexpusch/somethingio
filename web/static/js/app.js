@@ -18,10 +18,10 @@ import Network from './network.js'
 window.onload = function(){
   let container = document.querySelector('.game-container')
 
-  Network.connect('/socket', 'game:public').then(([id, network]) => {
-
+  Network.connect().then((network) => {
+    console.log('starting game')
     let game = new Game(container, {
-      onMouseMove: network.sendMousePosition
+      onMouseMove: network.sendMousePosition.bind(network)
     });
 
     network.registerMousePositionsCallback(function(id, x, y){
@@ -30,6 +30,9 @@ window.onload = function(){
 
     console.log('container', container)
     game.start()
+
+    let roomNameContainer = document.querySelector('.game__room-name')
+    roomNameContainer.innerHTML = network.room.name
   })
 }
 

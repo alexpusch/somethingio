@@ -2,7 +2,7 @@ defmodule Somethingio.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "game:*", Somethingio.GameChannel
+  channel "room:*", Somethingio.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
@@ -20,7 +20,7 @@ defmodule Somethingio.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket) do
-    IO.puts "connect"
+    IO.puts ">>>>> user socker connect"
     {:ok, socket}
   end
 

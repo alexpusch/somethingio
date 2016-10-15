@@ -17,6 +17,7 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
     </div> <!-- /container -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
