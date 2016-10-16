@@ -36,6 +36,14 @@ defmodule Somethingio.RoomChannelTest do
     assert player.room.id == room.id
   end
 
+  test "replays with list of current users" , %{socket: socket, room: room} do
+    {:ok, %{current_players: current_players}, socket2} =
+      socket("user_id", %{player_name: "Player 2"})
+      |> subscribe_and_join(RoomChannel, "room:#{room.id}")
+
+    assert length(current_players) == 2
+  end
+
   test "broadcasts mouse_move event to all clients", %{socket: socket, room: room} do
     player_id = get_player().id
 

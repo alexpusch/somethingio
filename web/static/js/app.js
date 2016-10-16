@@ -14,11 +14,26 @@
 import "phoenix_html"
 import Game from './game.js'
 import Network from './network.js'
+import ScoreBoard from './score_board.js'
+import generateName from './name_generator.js'
 
 window.onload = function(){
   let container = document.querySelector('.game-container')
+  const playerName = generateName()
 
-  Network.connect().then((network) => {
+  const network = new Network('/socket')
+
+  network.connect({player_name: playerName}).then((response) => {
+    console.log('response', response)
+    let currentPlayers = response.current_players
+
+    let roomNameContainer = document.querySelector('.game__room-name')
+    roomNameContainer.innerHTML = network.room.name
+
+    let scoreBoard = new ScoreBoard()
+    const el = scoreBoard.render(currentPlayers)
+    document.querySelector('.game__scores-container').appendChild(el)
+
     let game = new Game(container, {
       onMouseMove: network.sendMousePosition.bind(network),
       onMouseClick: network.sendMouseClick.bind(network)
@@ -28,14 +43,19 @@ window.onload = function(){
       game.updateCursor(id, x, y)
     })
 
-    network.registerMoueClickCallback((id, score) => {
-      game.updateScore(id, score)
+    network.registerMouseClickCallback((id, score) => {
+      let player = currentPlayers.filter((p) => p.id == id)[0]
+      player.score = score
+
+      scoreBoard.render(currentPlayers)
     })
 
     game.start()
 
-    let roomNameContainer = document.querySelector('.game__room-name')
-    roomNameContainer.innerHTML = network.room.name
+    network.registerNewPlayerCallback((player) => {
+      currentPlayers.push(player)
+      scoreBoard.render(currentPlayers)
+    })
   })
 }
 

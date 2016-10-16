@@ -26,4 +26,12 @@ defmodule Somethingio.Player do
     IO.inspect player
     Somethingio.Repo.update player
   end
+
+  def get_players_of_room(room_id) do
+    query = from p in Somethingio.Player,
+          where: p.room_id == ^room_id,
+          select: %{id: p.id, name: p.name, score: p.score}
+
+    Somethingio.Repo.all query
+  end
 end

@@ -1,4 +1,3 @@
 <div class='game__room-name'></div>
-<div class='game-container'>
-
-</div>
+<div class='game__scores-container'></div>
+<div class='game-container'></div>
