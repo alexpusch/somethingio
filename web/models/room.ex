@@ -42,6 +42,5 @@ defmodule Somethingio.Room do
     players_count = room.players_count
     changeset = changeset(room, %{:players_count => players_count - 1})
     Somethingio.Repo.update changeset
-
   end
 end

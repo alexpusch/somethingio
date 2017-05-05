@@ -30,8 +30,6 @@ defmodule Somethingio.RoomChannelTest do
   test "creates a new player after join", %{socket: socket, room: room} do
     player = get_player()
 
-    IO.inspect player
-
     assert player.name == @player_name
     assert player.room.id == room.id
   end

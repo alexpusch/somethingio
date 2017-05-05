@@ -11,7 +11,7 @@ class Game {
     this.container.addEventListener('mousemove', this.handleMouseMove.bind(this))
     this.container.addEventListener('click', this.handleMouseClick.bind(this))
 
-    let containerOrigin = this.container.getBoundingClientRect()
+    const containerOrigin = this.container.getBoundingClientRect()
     this.originX = containerOrigin.left
     this.originY = containerOrigin.top
   }
@@ -30,7 +30,7 @@ class Game {
   }
 
   updateCursorUI(cursor) {
-    let {id, x, y} = cursor
+    const {id, x, y} = cursor
     let cursorUI = this.cursorsUI[id]
 
     if(!cursorUI) {
@@ -44,12 +44,8 @@ class Game {
     cursorUI.style.left = `${x}px`
   }
 
-  updateScore(playerId, score) {
-    console.log(`player ${playerId} has score ${score}`)
-  }
-
   handleMouseMove(event) {
-    let x = event.clientX - this.originX, y = event.clientY - this.originY
+    const x = event.clientX - this.originX, y = event.clientY - this.originY
 
     this.updateCursor('me', x, y)
     this.events.onMouseMove(x,y)

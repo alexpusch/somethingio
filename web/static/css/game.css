@@ -6,11 +6,40 @@
 }
 
 .cursor {
-  width: 10px;
-  height: 10px;
-  background: blue;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #888;
+  transform: translateX(-50%) translateY(-50%);
+  transition: width 0.1s, height 0.1s, border-width 0.1s, border-color: 0.1s;
+}
+
+.cursor:active{
+  width: 50px;
+  height: 50px;
+  border-width: 10px;
+  border-color: #FDD;
+  cursor: default;
 }
 
 .cursor--other {
-  background: red;
+  border-color: red;
+}
+
+.scores {
+
+}
+
+.scores__player {
+  display: flex;
+  direction: row;
+}
+
+.scores__player-name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.scores__player-score {
+
 }

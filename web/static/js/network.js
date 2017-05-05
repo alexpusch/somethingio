@@ -23,28 +23,25 @@ class Network {
   }
 
   sendMouseClick(score) {
-    console.log('sending mouse click', score)
     this.channel.push('mouse_click', {score})
   }
 
   registerMousePositionsCallback(callback) {
     this.channel.on("mouse_move", payload => {
-      let [player_id, x, y] = payload.body
+      const [player_id, x, y] = payload.body
       callback(player_id, x, y)
     })
   }
 
   registerMouseClickCallback(callback) {
     this.channel.on("mouse_click", payload => {
-      console.log('got mouse click')
-      let [player_id, score] = payload.body
+      const [player_id, score] = payload.body
       callback(player_id, score)
     })
   }
 
   registerNewPlayerCallback(callback) {
     this.channel.on("new_player", payload => {
-      console.log('got new player', payload)
       const [id, name, score] = payload.body
       callback({id, name, score})
     })
@@ -62,22 +59,18 @@ function reserveRoom() {
 }
 
 function connectToRoom(playerParams, room) {
-  let socket = new Socket('/socket', {params: playerParams})
+  const socket = new Socket('/socket', {params: playerParams})
   socket.connect()
 
-  let channelName = `room:${room.id}`
-  let channel = socket.channel(channelName, {})
+  const channelName = `room:${room.id}`
+  const channel = socket.channel(channelName, {})
 
   return new Promise((resolve, reject) => {
-    console.log('connecting to room', room, channelName)
-
     channel.join()
       .receive("ok", resp => {
-        console.log("Joined successfully", resp)
         resolve([channel, room, resp])
       })
       .receive("error", resp => {
-        console.log("Unable to join", resp)
         reject(resp)
       })
   })
